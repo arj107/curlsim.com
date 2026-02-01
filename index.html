@@ -8,7 +8,7 @@
   <title>CurlSim — Coming Soon</title>
   <meta name="description" content="A modern curling game. Master precision, strategy, and physics." />
 
-  <!-- Social previews (optional but recommended) -->
+  <!-- Social previews -->
   <meta property="og:title" content="CurlSim" />
   <meta property="og:description" content="A modern curling game. Launching on Steam, iOS and Android in early 2026." />
   <meta property="og:image" content="images/main_capsule_01.png" />
@@ -48,7 +48,6 @@
       overflow-x:hidden;
     }
 
-    /* Background: your facility composition */
     .bg{
       position:fixed;
       inset:0;
@@ -59,12 +58,10 @@
       transform: translateZ(0);
     }
 
-    /* Optional “cinematic” treatment layer */
     .bg::after{
       content:"";
       position:absolute;
       inset:0;
-      /* Subtle contrast + saturation without JS */
       background: radial-gradient(60% 60% at 50% 30%, rgba(255,255,255,.08), rgba(0,0,0,0) 60%),
                   radial-gradient(80% 90% at 50% 90%, rgba(0,0,0,.35), rgba(0,0,0,0) 65%);
       pointer-events:none;
@@ -102,7 +99,7 @@
       position:relative;
     }
 
-    /* Use backdrop-filter when supported (very widely now) */
+    /* Use backdrop-filter when supported */
     @supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))){
       .card{
         background: rgba(10,12,18,.48);
@@ -276,7 +273,6 @@
         <div class="content">
           <div class="brand">
             <div class="logo">
-              <!-- Optional: your icon/logo mark -->
               <img src="images/app_icon_transparent.png" alt="Game logo" />
             </div>
             <div style="line-height:1.15">
@@ -299,12 +295,6 @@
             <span class="pill">Solo & competitive</span>
           </div>
           
-          <div class="pillrow" aria-label="Planned platforms">
-            <span class="pill">Steam — coming soon</span>
-            <span class="pill">iOS — coming soon</span>
-            <span class="pill">Android — coming soon</span>
-          </div>
-          
           <div class="ctaRow">
             <a class="btn btnPrimary" href="https://www.youtube.com/@CurlSim" target="_blank" rel="noopener">
               Watch on YouTube
@@ -317,6 +307,12 @@
             </a>
           </div>
           
+          <div class="pillrow" aria-label="Planned platforms">
+            <span class="pill">Steam — coming soon</span>
+            <span class="pill">iOS — coming soon</span>
+            <span class="pill">Android — coming soon</span>
+          </div>
+          
           <div class="fineprint">
             Steam, iOS, and Android store pages are coming soon.
           </div>
@@ -325,7 +321,6 @@
 
       <!-- Right: capsule / hero imagery -->
       <aside class="card art floaty" aria-label="Game media">
-        <!-- Use your highest-res library hero here -->
         <div class="artTop">
           <img src="images/library_hero_01.png" alt="Curling facility hero image" loading="lazy" decoding="async" />
         </div>
