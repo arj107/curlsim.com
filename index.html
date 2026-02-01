@@ -8,22 +8,20 @@
   <title>CurlSim — Coming Soon</title>
   <meta name="description" content="A modern curling game. Master precision, strategy, and physics." />
 
-  <!-- Social previews -->
+  <!-- Social previews (use app icon for now; swap to gameplay later) -->
   <meta property="og:title" content="CurlSim" />
   <meta property="og:description" content="A modern curling game. Launching on Steam, iOS and Android in early 2026." />
-  <meta property="og:image" content="images/main_capsule_01.png" />
   <meta property="og:url" content="https://arj107.github.io/curlsim.com/" />
+  <meta property="og:image" content="https://arj107.github.io/curlsim.com/images/app_icon_transparent.png" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="CurlSim" />
   <meta name="twitter:description" content="A modern curling game. Launching on Steam, iOS and Android in early 2026." />
-  <meta name="twitter:image" content="images/main_capsule_01.png" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://arj107.github.io/curlsim.com/images/app_icon_transparent.png" />
 
   <!-- Inter: Regular (400) + ExtraBold (800) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap" rel="stylesheet" />
-  <!-- Inter on Google Fonts (variable + weights) -->
-  <!-- https://fonts.google.com/specimen/Inter -->
   <link rel="icon" href="images/app_icon_transparent.png" />
 
   <style>
@@ -31,11 +29,10 @@
       --bg: #07090f;
       --fg: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.72);
-      --glass: rgba(10,12,18,.55);
       --stroke: rgba(255,255,255,.12);
       --shadow: 0 20px 80px rgba(0,0,0,.55);
       --radius: 24px;
-      --maxw: 1120px;
+      --maxw: 900px;
     }
 
     *{ box-sizing:border-box; }
@@ -48,22 +45,25 @@
       overflow-x:hidden;
     }
 
+    /* Background: facility composition */
     .bg{
       position:fixed;
       inset:0;
       z-index:-2;
       background:
-        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.72)),
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.74)),
         url("images/website_splash_render_01.png") center / cover no-repeat;
       transform: translateZ(0);
     }
 
+    /* Cinematic treatment layer */
     .bg::after{
       content:"";
       position:absolute;
       inset:0;
-      background: radial-gradient(60% 60% at 50% 30%, rgba(255,255,255,.08), rgba(0,0,0,0) 60%),
-                  radial-gradient(80% 90% at 50% 90%, rgba(0,0,0,.35), rgba(0,0,0,0) 65%);
+      background:
+        radial-gradient(60% 60% at 50% 30%, rgba(255,255,255,.08), rgba(0,0,0,0) 60%),
+        radial-gradient(85% 95% at 50% 95%, rgba(0,0,0,.42), rgba(0,0,0,0) 65%);
       pointer-events:none;
     }
 
@@ -73,20 +73,15 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding: clamp(18px, 3vw, 36px);
+      padding: clamp(18px, 3vw, 40px);
     }
 
-    /* Layout: left content + right key art (stacks on mobile) */
-    .grid{
+    /* Single centered column */
+    .stack{
       width: min(var(--maxw), 100%);
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: clamp(16px, 3vw, 28px);
-      align-items:stretch;
-    }
-
-    @media (max-width: 900px){
-      .grid{ grid-template-columns: 1fr; }
+      display:flex;
+      flex-direction:column;
+      gap: 16px;
     }
 
     /* Glass card */
@@ -99,7 +94,6 @@
       position:relative;
     }
 
-    /* Use backdrop-filter when supported */
     @supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))){
       .card{
         background: rgba(10,12,18,.48);
@@ -109,7 +103,7 @@
     }
 
     .content{
-      padding: clamp(18px, 3.2vw, 34px);
+      padding: clamp(18px, 3.2vw, 36px);
       display:flex;
       flex-direction:column;
       gap: 14px;
@@ -121,9 +115,9 @@
       gap: 12px;
     }
     .logo{
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       border: 1px solid var(--stroke);
       background: rgba(255,255,255,.06);
       display:grid;
@@ -139,10 +133,10 @@
     }
 
     h1{
-      margin:0;
-      font-weight: 800; /* Inter ExtraBold */
+      margin: 2px 0 0 0;
+      font-weight: 800;
       letter-spacing: -0.04em;
-      font-size: clamp(34px, 5vw, 56px); /* fluid type */
+      font-size: clamp(34px, 5vw, 60px);
       line-height: 1.03;
     }
 
@@ -150,8 +144,8 @@
       margin:0;
       color: var(--muted);
       font-size: clamp(15px, 2.0vw, 18px);
-      line-height: 1.55;
-      max-width: 60ch;
+      line-height: 1.6;
+      max-width: 62ch;
     }
 
     .pillrow{
@@ -197,6 +191,7 @@
       outline: 2px solid rgba(255,255,255,.75);
       outline-offset: 3px;
     }
+
     .btnPrimary{
       color:#0a0c12;
       background: rgba(255,255,255,.92);
@@ -216,42 +211,7 @@
       color: rgba(255,255,255,.65);
     }
 
-    /* Right-side key art / capsule */
-    .art{
-      display:flex;
-      flex-direction:column;
-    }
-    .art img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .artTop{
-      border-bottom: 1px solid var(--stroke);
-      aspect-ratio: 16 / 9;
-      overflow:hidden;
-    }
-
-    .artBottom{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      padding: 12px;
-    }
-    .thumb{
-      border-radius: 18px;
-      overflow:hidden;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.05);
-      aspect-ratio: 16 / 9;
-    }
-
-    /* Subtle motion, with accessibility */
-    .floaty{
-      animation: floaty 6s ease-in-out infinite;
-    }
+    .floaty{ animation: floaty 6s ease-in-out infinite; }
     @keyframes floaty{
       0%,100%{ transform: translateY(0px); }
       50%{ transform: translateY(-6px); }
@@ -260,20 +220,348 @@
       .floaty{ animation: none; }
       .btn{ transition:none; }
     }
+
+
+    /*
+  =========================
+  Gameplay Media (Carousel)
+  Uncomment when screenshots are ready.
+  =========================
+  .media{
+    padding: clamp(16px, 2.6vw, 26px);
+  }
+
+  .mediaHeader{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom: 12px;
+  }
+
+  .mediaTitle{
+    font-weight:800;
+    letter-spacing:-0.02em;
+    font-size: 16px;
+  }
+
+  .mediaHint{
+    color: rgba(255,255,255,.65);
+    font-size: 13px;
+  }
+
+  .carousel{
+    display:grid;
+    grid-template-columns: 44px 1fr 44px;
+    gap: 12px;
+    align-items:center;
+  }
+
+  .navBtn{
+    height: 44px;
+    width: 44px;
+    border-radius: 14px;
+    border: 1px solid var(--stroke);
+    background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.92);
+    cursor:pointer;
+    font-size: 22px;
+    line-height: 1;
+    display:grid;
+    place-items:center;
+    transition: transform .18s ease, background .18s ease;
+  }
+  .navBtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.11); }
+  .navBtn:focus-visible{
+    outline: 2px solid rgba(255,255,255,.75);
+    outline-offset: 3px;
+  }
+
+  .viewport{
+    overflow:hidden;
+    border-radius: 18px;
+    border: 1px solid var(--stroke);
+    background: rgba(255,255,255,.04);
+  }
+
+  .track{
+    display:flex;
+    gap: 10px;
+    padding: 10px;
+    transform: translateX(0px);
+    transition: transform .28s ease;
+    will-change: transform;
+  }
+
+  .shot{
+    flex: 0 0 auto;
+    width: clamp(220px, 55vw, 340px);
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    overflow:hidden;
+    border: 1px solid rgba(255,255,255,.10);
+    background: rgba(0,0,0,.25);
+    cursor: pointer;
+    position:relative;
+  }
+
+  .shot img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .shot::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: radial-gradient(70% 80% at 50% 30%, rgba(255,255,255,.08), rgba(0,0,0,0) 65%);
+    pointer-events:none;
+    opacity:.7;
+  }
+
+  .shotLabel{
+    position:absolute;
+    left:10px;
+    bottom:10px;
+    font-size: 12px;
+    color: rgba(255,255,255,.9);
+    background: rgba(0,0,0,.45);
+    border: 1px solid rgba(255,255,255,.14);
+    padding: 6px 8px;
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+  }
+
+  .viewer{
+    width: min(960px, 92vw);
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 20px;
+    padding: 0;
+    background: rgba(10,12,18,.86);
+    color: rgba(255,255,255,.92);
+    box-shadow: 0 24px 120px rgba(0,0,0,.65);
+  }
+
+  .viewer::backdrop{
+    background: rgba(0,0,0,.6);
+  }
+
+  .viewerFigure{
+    margin:0;
+    padding: 16px;
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+  }
+
+  .viewerFigure img{
+    width:100%;
+    height:auto;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.03);
+  }
+
+  .viewerFigure figcaption{
+    font-size: 13px;
+    color: rgba(255,255,255,.7);
+    padding: 0 2px 6px 2px;
+  }
+
+  .viewerClose{
+    position:absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.92);
+    cursor:pointer;
+    font-size: 22px;
+    line-height: 1;
+    display:grid;
+    place-items:center;
+  }
+  .viewerClose:hover{ background: rgba(255,255,255,.11); }
+
+  .viewerNav{
+    position:absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.92);
+    cursor:pointer;
+    font-size: 22px;
+    line-height: 1;
+    display:grid;
+    place-items:center;
+  }
+  .viewerPrev{ left: 10px; }
+  .viewerNext{ right: 10px; }
+  .viewerNav:hover{ background: rgba(255,255,255,.11); }
+
+  @media (max-width: 520px){
+    .carousel{ grid-template-columns: 40px 1fr 40px; gap:10px; }
+    .navBtn{ width: 40px; height: 40px; border-radius: 12px; }
+  }
+*/
+
+
+
+
   </style>
 </head>
+
+<!--
+<script>
+  // =========================
+  // Gameplay Media (Carousel)
+  // Uncomment when screenshots are ready.
+  // =========================
+
+  const screenshots = [
+    // Add your gameplay captures here (relative paths)
+    // { src: "images/gameplay/shot01.png", caption: "Draw shot into the house" },
+    // { src: "images/gameplay/shot02.png", caption: "Sweep timing and line control" },
+    // { src: "images/gameplay/shot03.png", caption: "End overview + strategy" },
+  ];
+
+  const track = document.getElementById("track");
+  const viewer = document.getElementById("viewer");
+  const viewerImg = document.getElementById("viewerImg");
+  const viewerCaption = document.getElementById("viewerCaption");
+  const viewerClose = document.getElementById("viewerClose");
+  const viewerPrev = document.getElementById("viewerPrev");
+  const viewerNext = document.getElementById("viewerNext");
+
+  let index = 0;
+  let offset = 0;
+
+  function renderThumbs(){
+    track.innerHTML = "";
+    screenshots.forEach((s, i) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "shot";
+      btn.setAttribute("aria-label", s.caption ? `Preview: ${s.caption}` : `Preview image ${i+1}`);
+
+      const img = document.createElement("img");
+      img.src = s.src;
+      img.alt = s.caption || `Gameplay screenshot ${i+1}`;
+      img.loading = "lazy";
+      img.decoding = "async";
+
+      const label = document.createElement("div");
+      label.className = "shotLabel";
+      label.textContent = `${i+1} / ${screenshots.length}`;
+
+      btn.appendChild(img);
+      btn.appendChild(label);
+      btn.addEventListener("click", () => openViewer(i));
+
+      track.appendChild(btn);
+    });
+  }
+
+  function openViewer(i){
+    index = i;
+    const s = screenshots[index];
+    viewerImg.src = s.src;
+    viewerImg.alt = s.caption || `Gameplay screenshot ${index+1}`;
+    viewerCaption.textContent = s.caption || "";
+    viewer.showModal();
+  }
+
+  function closeViewer(){
+    viewer.close();
+    // Optional: clear src to stop decoding large images after close
+    // viewerImg.src = "";
+  }
+
+  function stepViewer(dir){
+    if (!screenshots.length) return;
+    index = (index + dir + screenshots.length) % screenshots.length;
+    openViewer(index);
+  }
+
+  function shiftCarousel(dir){
+    // Basic shift: move by ~1 card width
+    const first = track.querySelector(".shot");
+    if (!first) return;
+
+    const cardW = first.getBoundingClientRect().width;
+    const gap = 10; // matches CSS gap
+    const step = cardW + gap;
+
+    // clamp offset so we don't scroll past ends
+    const viewport = track.parentElement.getBoundingClientRect().width;
+    const total = screenshots.length * step;
+    const maxOffset = Math.max(0, total - viewport);
+
+    offset = Math.min(maxOffset, Math.max(0, offset + dir * step));
+    track.style.transform = `translateX(${-offset}px)`;
+  }
+
+  // Hook nav buttons (carousel)
+  document.querySelectorAll(".navBtn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const dir = Number(btn.dataset.dir) || 0;
+      shiftCarousel(dir);
+    });
+  });
+
+  // Viewer controls
+  viewerClose?.addEventListener("click", closeViewer);
+  viewerPrev?.addEventListener("click", () => stepViewer(-1));
+  viewerNext?.addEventListener("click", () => stepViewer(1));
+
+  // Click backdrop to close (dialog doesn't do this by default)
+  viewer?.addEventListener("click", (e) => {
+    const rect = viewer.getBoundingClientRect();
+    const inDialog =
+      e.clientX >= rect.left && e.clientX <= rect.right &&
+      e.clientY >= rect.top && e.clientY <= rect.bottom;
+
+    // If click is outside the dialog content box, close
+    if (!inDialog) closeViewer();
+  });
+
+  // Keyboard shortcuts
+  window.addEventListener("keydown", (e) => {
+    if (!viewer?.open) return;
+    if (e.key === "Escape") closeViewer();
+    if (e.key === "ArrowLeft") stepViewer(-1);
+    if (e.key === "ArrowRight") stepViewer(1);
+  });
+
+  // Only render if we actually have screenshots
+  if (screenshots.length){
+    renderThumbs();
+  } else {
+    // If you uncomment the HTML before you have shots, the track will remain empty.
+    // That's fine, but you can also hide the card until you add shots.
+  }
+</script>
+-->
 
 <body>
   <div class="bg" aria-hidden="true"></div>
 
   <main class="wrap">
-    <section class="grid">
-      <!-- Left: copy + CTAs -->
-      <div class="card">
+    <section class="stack">
+      <div class="card floaty">
         <div class="content">
           <div class="brand">
             <div class="logo">
-              <img src="images/app_icon_transparent.png" alt="Game logo" />
+              <img src="images/app_icon_transparent.png" alt="CurlSim app icon" />
             </div>
             <div style="line-height:1.15">
               <div style="font-weight:800; letter-spacing:-0.02em;">CurlSim</div>
@@ -294,7 +582,7 @@
             <span class="pill">Satisfying physics</span>
             <span class="pill">Solo & competitive</span>
           </div>
-          
+
           <div class="ctaRow">
             <a class="btn btnPrimary" href="https://www.youtube.com/@CurlSim" target="_blank" rel="noopener">
               Watch on YouTube
@@ -306,33 +594,57 @@
               Follow on TikTok
             </a>
           </div>
-          
+
           <div class="pillrow" aria-label="Planned platforms">
             <span class="pill">Steam — coming soon</span>
             <span class="pill">iOS — coming soon</span>
             <span class="pill">Android — coming soon</span>
           </div>
-          
+
           <div class="fineprint">
-            Steam, iOS, and Android store pages are coming soon.
+            Store pages are coming soon.
           </div>
         </div>
       </div>
 
-      <!-- Right: capsule / hero imagery -->
-      <aside class="card art floaty" aria-label="Game media">
-        <div class="artTop">
-          <img src="images/library_hero_01.png" alt="Curling facility hero image" loading="lazy" decoding="async" />
-        </div>
-        <div class="artBottom">
-          <div class="thumb">
-            <img src="images/library_capsule_01.png" alt="Library header capsule" loading="lazy" decoding="async" />
+      <!--
+      =========================
+      Gameplay Media (Carousel)
+      Uncomment when screenshots are ready.
+      Required folder: /images/gameplay/
+      =========================
+
+      <div class="card" aria-label="Gameplay screenshots">
+        <div class="media">
+          <div class="mediaHeader">
+            <div class="mediaTitle">Gameplay</div>
+            <div class="mediaHint">Tap to preview. Use arrows to browse.</div>
           </div>
-          <div class="thumb">
-            <img src="images/main_capsule_01.png" alt="Main capsule image" loading="lazy" decoding="async" />
+
+          <div class="carousel" role="region" aria-label="Screenshot carousel">
+            <button class="navBtn" type="button" data-dir="-1" aria-label="Previous screenshot">‹</button>
+
+            <div class="viewport">
+              <div class="track" id="track"></div>
+            </div>
+
+            <button class="navBtn" type="button" data-dir="1" aria-label="Next screenshot">›</button>
           </div>
         </div>
-      </aside>
+      </div>
+
+      <dialog class="viewer" id="viewer" aria-label="Image preview">
+        <button class="viewerClose" type="button" id="viewerClose" aria-label="Close preview">×</button>
+        <figure class="viewerFigure">
+          <img id="viewerImg" alt="" />
+          <figcaption id="viewerCaption"></figcaption>
+        </figure>
+
+        <button class="viewerNav viewerPrev" type="button" id="viewerPrev" aria-label="Previous image">‹</button>
+        <button class="viewerNav viewerNext" type="button" id="viewerNext" aria-label="Next image">›</button>
+      </dialog>
+    -->
+
     </section>
   </main>
 </body>
