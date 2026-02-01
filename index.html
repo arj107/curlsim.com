@@ -12,6 +12,10 @@
   <meta property="og:title" content="CurlSim" />
   <meta property="og:description" content="A modern curling game. Launching on Steam, iOS and Android in early 2026." />
   <meta property="og:image" content="images/main_capsule_01.png" />
+  <meta property="og:url" content="https://YOUR_GITHUB_PAGES_URL/" />
+  <meta name="twitter:title" content="CurlSim" />
+  <meta name="twitter:description" content="A modern curling game. Launching on Steam, iOS and Android in early 2026." />
+  <meta name="twitter:image" content="images/main_capsule_01.png" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Inter: Regular (400) + ExtraBold (800) -->
@@ -20,6 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap" rel="stylesheet" />
   <!-- Inter on Google Fonts (variable + weights) -->
   <!-- https://fonts.google.com/specimen/Inter -->
+  <link rel="icon" href="images/app_icon_transparent.png" />
 
   <style>
     :root{
@@ -59,7 +64,6 @@
       content:"";
       position:absolute;
       inset:0;
-      z-index:-1;
       /* Subtle contrast + saturation without JS */
       background: radial-gradient(60% 60% at 50% 30%, rgba(255,255,255,.08), rgba(0,0,0,0) 60%),
                   radial-gradient(80% 90% at 50% 90%, rgba(0,0,0,.35), rgba(0,0,0,0) 65%);
@@ -192,7 +196,10 @@
       transition: transform .18s ease, filter .18s ease, background .18s ease;
       will-change: transform;
     }
-
+    .btn:focus-visible{
+      outline: 2px solid rgba(255,255,255,.75);
+      outline-offset: 3px;
+    }
     .btnPrimary{
       color:#0a0c12;
       background: rgba(255,255,255,.92);
@@ -320,14 +327,14 @@
       <aside class="card art floaty" aria-label="Game media">
         <!-- Use your highest-res library hero here -->
         <div class="artTop">
-          <img src="images/library_hero_01.png" alt="Curling facility hero image" />
+          <img src="images/library_hero_01.png" alt="Curling facility hero image" loading="lazy" decoding="async" />
         </div>
         <div class="artBottom">
           <div class="thumb">
-            <img src="images/library_capsule_01.png" alt="Library header capsule" />
+            <img src="images/library_capsule_01.png" alt="Library header capsule" loading="lazy" decoding="async" />
           </div>
           <div class="thumb">
-            <img src="images/main_capsule_01.png" alt="Main capsule image" />
+            <img src="images/main_capsule_01.png" alt="Main capsule image" loading="lazy" decoding="async" />
           </div>
         </div>
       </aside>
