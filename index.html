@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark light" />
+
+  <title>CurlSim — Coming Soon</title>
+  <meta name="description" content="A modern curling game. Master precision, strategy, and physics." />
+
+  <!-- Social previews (optional but recommended) -->
+  <meta property="og:title" content="CurlSim" />
+  <meta property="og:description" content="A modern curling game. Launching on Steam, iOS and Android in early 2026." />
+  <meta property="og:image" content="images/steam-capsule-main.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Inter: Regular (400) + ExtraBold (800) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap" rel="stylesheet" />
+  <!-- Inter on Google Fonts (variable + weights) -->
+  <!-- https://fonts.google.com/specimen/Inter -->
+
+  <style>
+    :root{
+      --bg: #07090f;
+      --fg: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+      --glass: rgba(10,12,18,.55);
+      --stroke: rgba(255,255,255,.12);
+      --shadow: 0 20px 80px rgba(0,0,0,.55);
+      --radius: 24px;
+      --maxw: 1120px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      overflow-x:hidden;
+    }
+
+    /* Background: your facility composition */
+    .bg{
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.72)),
+        url("images/website_splash_render_01.png") center / cover no-repeat;
+      transform: translateZ(0);
+    }
+
+    /* Optional “cinematic” treatment layer */
+    .bg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:-1;
+      /* Subtle contrast + saturation without JS */
+      background: radial-gradient(60% 60% at 50% 30%, rgba(255,255,255,.08), rgba(0,0,0,0) 60%),
+                  radial-gradient(80% 90% at 50% 90%, rgba(0,0,0,.35), rgba(0,0,0,0) 65%);
+      pointer-events:none;
+    }
+
+    /* Page shell */
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: clamp(18px, 3vw, 36px);
+    }
+
+    /* Layout: left content + right key art (stacks on mobile) */
+    .grid{
+      width: min(var(--maxw), 100%);
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: clamp(16px, 3vw, 28px);
+      align-items:stretch;
+    }
+
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    /* Glass card */
+    .card{
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(12,14,22,.72), rgba(8,10,16,.55));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* Use backdrop-filter when supported (very widely now) */
+    @supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))){
+      .card{
+        background: rgba(10,12,18,.48);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+      }
+    }
+
+    .content{
+      padding: clamp(18px, 3.2vw, 34px);
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+    }
+    .logo{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    .logo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    h1{
+      margin:0;
+      font-weight: 800; /* Inter ExtraBold */
+      letter-spacing: -0.04em;
+      font-size: clamp(34px, 5vw, 56px); /* fluid type */
+      line-height: 1.03;
+    }
+
+    .tagline{
+      margin:0;
+      color: var(--muted);
+      font-size: clamp(15px, 2.0vw, 18px);
+      line-height: 1.55;
+      max-width: 60ch;
+    }
+
+    .pillrow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 6px;
+    }
+
+    .pill{
+      font-size: 13px;
+      color: rgba(255,255,255,.82);
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+    }
+
+    .ctaRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 12px;
+      margin-top: 12px;
+      align-items:center;
+    }
+
+    .btn{
+      appearance:none;
+      border:0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      transition: transform .18s ease, filter .18s ease, background .18s ease;
+      will-change: transform;
+    }
+
+    .btnPrimary{
+      color:#0a0c12;
+      background: rgba(255,255,255,.92);
+    }
+    .btnPrimary:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+
+    .btnGhost{
+      color: rgba(255,255,255,.92);
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--stroke);
+    }
+    .btnGhost:hover{ transform: translateY(-1px); background: rgba(255,255,255,.11); }
+
+    .fineprint{
+      margin-top: 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,.65);
+    }
+
+    /* Right-side key art / capsule */
+    .art{
+      display:flex;
+      flex-direction:column;
+    }
+    .art img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .artTop{
+      border-bottom: 1px solid var(--stroke);
+      aspect-ratio: 16 / 9;
+      overflow:hidden;
+    }
+
+    .artBottom{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 12px;
+    }
+    .thumb{
+      border-radius: 18px;
+      overflow:hidden;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      aspect-ratio: 16 / 9;
+    }
+
+    /* Subtle motion, with accessibility */
+    .floaty{
+      animation: floaty 6s ease-in-out infinite;
+    }
+    @keyframes floaty{
+      0%,100%{ transform: translateY(0px); }
+      50%{ transform: translateY(-6px); }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .floaty{ animation: none; }
+      .btn{ transition:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <section class="grid">
+      <!-- Left: copy + CTAs -->
+      <div class="card">
+        <div class="content">
+          <div class="brand">
+            <div class="logo">
+              <!-- Optional: your icon/logo mark -->
+              <img src="images/app_icon_transparent.png" alt="Game logo" />
+            </div>
+            <div style="line-height:1.15">
+              <div style="font-weight:800; letter-spacing:-0.02em;">CurlSim</div>
+              <div style="color:rgba(255,255,255,.65); font-size:13px;">A modern curling game</div>
+            </div>
+          </div>
+
+          <h1>Precision. Strategy. Ice.</h1>
+
+          <p class="tagline">
+            Experience a stunning, true-to-the-sport curling simulation — crafted for clean feel,
+            satisfying physics, and the calm intensity of competition.
+          </p>
+
+          <div class="pillrow" aria-label="Key features">
+            <span class="pill">Simulation-first</span>
+            <span class="pill">Authentic facility</span>
+            <span class="pill">Satisfying physics</span>
+            <span class="pill">Solo & competitive</span>
+          </div>
+          
+          <div class="pillrow" aria-label="Planned platforms">
+            <span class="pill">Steam — coming soon</span>
+            <span class="pill">iOS — coming soon</span>
+            <span class="pill">Android — coming soon</span>
+          </div>
+          
+          <div class="ctaRow">
+            <a class="btn btnPrimary" href="https://www.youtube.com/@CurlSim" target="_blank" rel="noopener">
+              Watch on YouTube
+            </a>
+            <a class="btn btnGhost" href="https://twitter.com/curlsim" target="_blank" rel="noopener">
+              Follow on X
+            </a>
+            <a class="btn btnGhost" href="https://www.tiktok.com/@CurlSimGame" target="_blank" rel="noopener">
+              Follow on TikTok
+            </a>
+          </div>
+          
+          <div class="fineprint">
+            Steam, iOS, and Android store pages are coming soon.
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: capsule / hero imagery -->
+      <aside class="card art floaty" aria-label="Game media">
+        <!-- Use your highest-res library hero here -->
+        <div class="artTop">
+          <img src="images/library_hero_01.png" alt="Curling facility hero image" />
+        </div>
+        <div class="artBottom">
+          <div class="thumb">
+            <img src="images/library_capsule_01.png" alt="Library header capsule" />
+          </div>
+          <div class="thumb">
+            <img src="images/main-capsule_01.png" alt="Main capsule image" />
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
